@@ -1,0 +1,116 @@
+﻿<Window x:Class="UniversityAdmission.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UniversityAdmission"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+
+        <Grid.Resources>
+            <Style x:Key="Style1" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="Margin" Value="2 1 2 1"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                <Setter Property="TextAlignment" Value="Center"></Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="Do"></MenuItem>
+            <StackPanel Orientation="Horizontal">
+                <Label>Фильтр:</Label>
+                <TextBox Text="{Binding Filter}"></TextBox>
+            </StackPanel>
+        </Menu>
+
+        <TabControl Grid.Row="1" ItemsSource="{Binding Universities}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <TabControl ItemsSource="{Binding Specialities}">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding AcceptNumber}" Margin="5"></TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource Style1}">Номер по баллам:</TextBlock>
+                                            <TextBlock Text="{Binding FilterNumber}" Style="{StaticResource Style1}"></TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource Style1}">Кол-во согласных на зачисление без других направлений:</TextBlock>
+                                            <TextBlock Text="{Binding Soglasen}" Style="{StaticResource Style1}"></TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <TextBlock Text="№" Style="{StaticResource Style1}" Width="20"></TextBlock>
+                                        <TextBlock Text="ФИО" Style="{StaticResource Style1}" Width="300"></TextBlock>
+                                        <TextBlock Text="Сумма баллов" Style="{StaticResource Style1}" Width="100"></TextBlock>
+                                    </StackPanel>
+                                    <ListBox Grid.Row="2" ItemsSource="{Binding Abiturients}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Order}" Style="{StaticResource Style1}" Width="20"></TextBlock>
+                                                    <TextBlock Text="{Binding Fio}" Style="{StaticResource Style1}" Width="300"></TextBlock>
+                                                    <TextBlock Text="{Binding Ege}" Style="{StaticResource Style1}" Width="100"></TextBlock>
+                                                    <TextBlock Width="200">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Margin" Value="2 1 2 1"></Setter>
+                                                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsImmidiate}" Value="True">
+                                                                        <Setter Property="Text" Value="Согласие на зачисление"></Setter>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <TextBlock Width="200">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Margin" Value="2 1 2 1"></Setter>
+                                                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding AnotherDirection}" Value="True">
+                                                                        <Setter Property="Text" Value="Зачислен на другое направление"></Setter>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
+    </Grid>
+</Window>
